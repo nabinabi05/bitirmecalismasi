@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_SERVICE_URL=http://model:8080
+      - PORT=8000
+    depends_on:
+      - model
+
+  model:
+    build:
+      context: .
+      dockerfile: Dockerfile.model
+    # Dış dünyaya açık port yok (sadece iç network)
+    # Eğer test için dışarıdan da erişmek isterseniz yorum satırını kaldırabilirsiniz:
+    # ports:
+    #   - "8080:8080"
+    environment:
+      - PORT=8080

@@ -1,0 +1,46 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Datasets, exports, and model checkpoints
+checkpoints/
+export/
+plantvillage dataset/
+**/*.pyc
+__pycache__/
+
+# Mac
+.DS_Store
+*.pt
+*.pth
+*.h5
+*.zip
+~$*
+*yedek*.docx
+
+# Models and large images
+modeller/
+test/
+sam_segments/
+segmented_collages/
+eval_outputs/
+flat_test/
+
+# Thesis, presentation, and analysis scripts
+*.pdf
+*.docx
+*.pptx
+node_modules/
+package.json
+package-lock.json
+tez_diagrams/
+pipeline_adimlari/
+scorch_pipeline_adimlari/
+fotoğraflar diyagramlar/
+generate_*.py
+evaluate_robustness.py
+plot_training.py
+create_deck.js
+.env
+train_efficientnet_b3.py

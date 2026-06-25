@@ -1,0 +1,53 @@
+# Cloud Build'e yüklenen bağlamı küçültmek için: sadece çıkarım servisine
+# gereken dosyalar imaja girsin. Veri setleri, Flutter uygulaması ve yardımcı
+# scriptler dışarıda bırakılır.
+
+flutter_app/
+DATASET/
+PlantWild/
+plantvillage dataset/
+train/
+val/
+test/
+test_backup/
+flat_test/
+eval_outputs/
+_repo_ref/
+.venv/
+.git/
+.cache/
+.claude/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Dokümanlar / metin dosyaları (requirements hariç)
+*.md
+*.txt
+!requirements_inference.txt
+
+# modeller/ içinden gereksizler
+modeller/sam2_repo_broken/
+modeller/sam_debug_outputs/
+modeller/plant_disease_field_ready.h5
+modeller/.DS_Store
+modeller/sam2_repo/.git/
+modeller/sam2_repo/checkpoints/
+modeller/sam2_repo/notebooks/
+modeller/sam2_repo/demo/
+modeller/sam2_repo/sav_dataset/
+
+# Eğitim/analiz yardımcı scriptleri (çıkarım için gerekmiyor)
+analyze_results.py
+compare_errors.py
+evaluate_robustness.py
+fast_search.py
+find_errors.py
+organize_sam_segments.py
+patch.py
+plot_class_accuracies.py
+plot_robustness_results.py
+replace_from_plantwild.py
+replace_grape_from_gvlid.py
+simulate_grouping.py
+test4.dart

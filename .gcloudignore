@@ -1,0 +1,34 @@
+# Cloud Build yükleme context'i. NOT: .gcloudignore varsa gcloud .gitignore'u
+# DEVRALMAZ; bu yüzden model ağırlıkları (modeller/*.pt, *.pth) bilerek BURADA
+# dışlanmaz — imaja girmeleri gerekir. Sadece imaja gereksiz olan ağır şeyler dışlanır.
+
+# Sürüm kontrolü ve sanal ortam
+.git/
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Büyük veri setleri ve üretilen görseller (imaja gerekmez)
+/plantvillage dataset/
+/eval_outputs/
+/segmented_collages/
+/sam_segments/
+/flat_test/
+/test/
+
+# Mobil istemci (çıkarım imajına girmez)
+/flutter_app/
+
+# Kök dizindeki doküman, görsel ve yardımcı betikler
+/*.docx
+/*.jpg
+/tez.md
+/TEZ_YOL_HARITASI.md
+/build_tez_sablon.py
+/evaluate_robustness.py
+
+# modeller/ içinde imaja gereksiz olanlar (model ağırlıkları HARİÇ tutulmaz)
+/modeller/sam_debug_outputs/
+/modeller/sam2_repo_broken/
+/modeller/plant_disease_field_ready.h5

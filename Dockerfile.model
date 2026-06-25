@@ -1,0 +1,37 @@
+# Bitki hastalığı çıkarım servisi (FastAPI + EfficientNet-B3 + SAM 2.1)
+# Google Cloud Run için CPU tabanlı imaj.
+# GPU'ya geçmek isterseniz: tabandaki torch kurulumunu CUDA sürümüyle değiştirin
+# ve deploy sırasında --gpu 1 --gpu-type nvidia-l4 ekleyin (aşağıdaki nota bakın).
+
+FROM python:3.12-slim
+
+# OpenCV'nin ihtiyaç duyduğu sistem kütüphaneleri
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# 1) PyTorch'un CPU sürümünü kur (CUDA paketlerini çekmeyip imajı küçültür)
+RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu \
+    "torch>=2.3.0" "torchvision>=0.18.0"
+
+# 2) Geri kalan bağımlılıklar (torch zaten kurulu olduğundan tekrar indirilmez)
+COPY requirements_inference.txt .
+RUN pip install --no-cache-dir -r requirements_inference.txt
+
+# 3) SAM 2.1 deposunu editable kur. CPU imajında CUDA eklentisini derlemeyi atla.
+ENV SAM2_BUILD_CUDA=0
+COPY modeller/sam2_repo /app/modeller/sam2_repo
+RUN pip install --no-cache-dir -e /app/modeller/sam2_repo
+
+# 4) Uygulama kodu ve model ağırlıkları
+COPY inference_api.py /app/
+COPY modeller/best_plant_model_efficientnet_b3.pth /app/modeller/
+COPY modeller/sam2.1_hiera_large.pt /app/modeller/
+
+# Cloud Run, dinlenecek portu PORT ortam değişkeniyle verir (varsayılan 8080)
+ENV PORT=8080
+CMD exec uvicorn inference_api:app --host 0.0.0.0 --port ${PORT}
